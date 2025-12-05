@@ -6,7 +6,7 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:51:00 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/04 11:04:31 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:27:22 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,20 @@ int				check_characters(t_sl_data *data);
 int				check_map_characters(t_sl_data *data);
 int				check_map_squareness(t_sl_data *data);
 int				load_map(t_sl_data *data);
-void			moving_up(t_sl_data *data);
-void			moving_down(t_sl_data *data);
-void			moving_left(t_sl_data *data);
-void			moving_right(t_sl_data *data);
+void			moving_up(t_struct_struct *data_struct, t_sl_data *data);
+void			moving_down(t_struct_struct *data_struct, t_sl_data *data);
+void			moving_left(t_struct_struct *data_struct, t_sl_data *data);
+void			moving_right(t_struct_struct *data_struct, t_sl_data *data);
 void			youve_been_movin_and_groovin(t_sl_data *data);
-void			moving(int up_down, int left_right, t_sl_data *data);
-void			moving_further(t_sl_data *data, int *player_pos, int up_down,
-					int left_right);
-int				what_has_been_pressed(int key, t_sl_data data);
-void			ending_the_game(t_struct_struct *struct_struct)
+void			moving(int up_down, int left_right, t_sl_data *data,
+					t_struct_struct *struct_struct);
+void			moving_further(int *player_pos, int up_down, int left_right,
+					t_struct_struct *struct_struct);
+int				what_has_been_pressed(int key, t_struct_struct *data_struct);
+void			ending_the_game(t_struct_struct *struct_struct);
+int				closing(t_struct_struct *struct_struct);
+void			mlx_management(t_sl_data *data);
+void			window_initialization(t_mlx *mlx_data, t_sl_data *data, int i,
+					int j);
 
 #endif

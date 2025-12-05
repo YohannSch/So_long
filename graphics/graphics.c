@@ -6,26 +6,27 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:24:01 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/04 10:58:38 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:27 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	what_has_been_pressed(int key, t_sl_data *data)
+int	what_has_been_pressed(int key, t_struct_struct *data_struct)
 {
 	if (key == ESC_KEY)
-		closing();
+		closing(data_struct);
 	else if (key == W_KEY)
-		moving_up(data);
+		moving_up(data_struct, data_struct->data);
 	else if (key == S_KEY)
-		moving_down(data);
+		moving_down(data_struct, data_struct->data);
 	else if (key == A_KEY)
-		moving_left(data);
+		moving_left(data_struct, data_struct->data);
 	else if (key == D_KEY)
-		moving_right(data);
+		moving_right(data_struct, data_struct->data);
 	return (SUCCESS);
 }
+
 void	assets_management(t_mlx *mlx_data, int width, int height)
 {
 	mlx_data->assets[0] = mlx_xpm_file_to_image(mlx_data->mlx,
@@ -42,21 +43,31 @@ void	assets_management(t_mlx *mlx_data, int width, int height)
 
 int	closing(t_struct_struct *struct_struct)
 {
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->img);
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->assets[0]);
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->assets[1]);
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->assets[2]);
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->assets[3]);
-	mlx_destroy_image(struct_struct->mlx_data->mlx, struct_struct->mlx_data->assets[4]);
-	mlx_destroy_window(struct_struct->mlx_data->mlx, struct_struct->mlx_data->win);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->img);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->assets[0]);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->assets[1]);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->assets[2]);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->assets[3]);
+	mlx_destroy_image(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->assets[4]);
+	mlx_destroy_window(struct_struct->mlx_data->mlx,
+		struct_struct->mlx_data->win);
 	mlx_destroy_display(struct_struct->mlx_data->mlx);
 	free(struct_struct->mlx_data->mlx);
 	free(struct_struct->mlx_data->assets);
 	free(struct_struct->data->exit_pos);
+	if (struct_struct->data->map_file != NULL)
+		free(struct_struct->data->map_file);
 	free_tab(struct_struct->data->map);
 	exit(EXIT_SUCCESS);
 }
-void	ft_initialize_window(t_mlx *mlx_data, t_sl_data *data, int i, int j)
+
+void	window_initialization(t_mlx *mlx_data, t_sl_data *data, int i, int j)
 {
 	i = 0;
 	while (data->map[i])
@@ -85,7 +96,6 @@ void	ft_initialize_window(t_mlx *mlx_data, t_sl_data *data, int i, int j)
 	}
 }
 
-
 void	mlx_management(t_sl_data *data)
 {
 	t_mlx			mlx_data;
@@ -101,6 +111,7 @@ void	mlx_management(t_sl_data *data)
 	mlx_data.img = mlx_new_image(mlx_data.mlx, 32 * ft_strlen(data->map[0]), 32
 			* ((what_is_the_last_line(data) + 1)));
 	window_initialization(&mlx_data, data, 0, 0);
+	sleep(1);
 	mlx_hook(mlx_data.win, 17, 0, closing, &struct_struct);
 	if (mlx_key_hook(mlx_data.win, what_has_been_pressed, &struct_struct) == 0)
 	{

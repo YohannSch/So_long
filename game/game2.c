@@ -6,23 +6,26 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 07:24:37 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/04 11:04:50 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:53:23 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	moving(int up_down, int left_right, t_sl_data *data, t_struct_struct *struct_struct)
+void	moving(int up_down, int left_right, t_sl_data *data,
+		t_struct_struct *struct_struct)
 {
 	int	*player_pos;
 
-	player_pos = find_player_position;
+	player_pos = find_player_position(data);
+	if (!player_pos)
+		return ;
 	if (data->map[player_pos[0] + up_down][player_pos[1] + left_right] == '0')
 	{
 		data->map[player_pos[0]][player_pos[1]] = '0';
 		data->map[player_pos[0] + up_down][player_pos[1] + left_right] = 'P';
-		if (data->exit_pos[0] == player_pos[0] + up_down
-			&& data->exit_pos[1] == player_pos[1] + left_right)
+		if (data->exit_pos[0] == player_pos[0]
+			&& data->exit_pos[1] == player_pos[1])
 			data->map[player_pos[0]][player_pos[1]] = 'E';
 	}
 	if (data->map[player_pos[0] + up_down][player_pos[1] + left_right] == 'C')
@@ -34,26 +37,31 @@ void	moving(int up_down, int left_right, t_sl_data *data, t_struct_struct *struc
 			&& data->exit_pos[1] == player_pos[1])
 			data->map[player_pos[0]][player_pos[1]] = 'E';
 	}
-	
+	moving_further(player_pos, up_down, left_right, struct_struct);
 }
 
-void	moving_further(t_sl_data *data, int *player_pos, int up_down, int left_right, t_struct_struct *struct_struct)
+void	moving_further(int *player_pos, int up_down, int left_right,
+			t_struct_struct *struct_struct)
 {
-	if (data->map[player_pos[0] + up_down][player_pos[1] + left_right] == 'E'
-		&& data->num_c == 0)
+	if (struct_struct->data->map[player_pos[0] + up_down][player_pos[1]
+		+ left_right] == 'E' && struct_struct->data->num_c == 0)
 	{
+		window_initialization(struct_struct->mlx_data, struct_struct->data, 32,
+			32);
 		free(player_pos);
-		ending_the_game(struct_struct)
+		ending_the_game(struct_struct);
 	}
-	if (data->map[player_pos[0] + up_down][player_pos[1] + left_right] == 'E'
-		&& data->num_c != 0)
+	if (struct_struct->data->map[player_pos[0] + up_down][player_pos[1]
+		+ left_right] == 'E' && struct_struct->data->num_c != 0)
 	{
-		data->exit_pos[0] = player_pos[0] + left_right;
-		data->exit_pos[1] = player_pos[1] + up_down;
-		data->map[player_pos[0]][player_pos[1]] = '0';
-		data->map[player_pos[0] + up_down][player_pos[1] + left_right] = 'P';
+		// struct_struct->data->exit_pos[0] = player_pos[0] + left_right;
+		// struct_struct->data->exit_pos[1] = player_pos[1] + up_down;
+		struct_struct->data->map[player_pos[0]][player_pos[1]] = '0';
+		struct_struct->data->map[player_pos[0] + up_down][player_pos[1]
+			+ left_right] = 'P';
 	}
-	youve_been_movin_and_groovin(data);
+	youve_been_movin_and_groovin(struct_struct->data);
+	window_initialization(struct_struct->mlx_data, struct_struct->data, 32, 32);
 	free(player_pos);
 }
 

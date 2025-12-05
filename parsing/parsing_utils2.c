@@ -6,7 +6,7 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 06:41:31 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/04 06:42:04 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:27:01 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	*find_player_position(t_sl_data *data)
 
 	i = 0;
 	res = malloc(sizeof(int) * 2);
+	if (!res)
+		return (NULL);
 	while (data->map[i])
 	{
 		j = 0;
@@ -35,6 +37,7 @@ int	*find_player_position(t_sl_data *data)
 		}
 		i++;
 	}
+	return (NULL);
 }
 
 void	copy_map(t_sl_data *data)
@@ -77,6 +80,8 @@ int	check_path(t_sl_data *data)
 
 	tmp = data->num_c;
 	player_pos = find_player_position(data);
+	if (player_pos == NULL)
+		return (free(player_pos), free_tab(data->cpy_map), ERR_MAP_PATH);
 	copy_map(data);
 	if (flood_fill(data, player_pos[0], player_pos[1]) != SUCCESS)
 		return (free(player_pos), free_tab(data->cpy_map), ERR_MAP_PATH);
@@ -89,7 +94,7 @@ int	check_path(t_sl_data *data)
 int	flood_fill(t_sl_data *data, int x, int y)
 {
 	if (x < 0 || x >= what_is_the_last_line(data) || y < 0
-		|| y >= ft_strlen(data->cpy_map[0]))
+		|| y >= (int)ft_strlen(data->cpy_map[0]))
 		return (ERR_MAP_PATH);
 	if (data->cpy_map[x][y] == '1' || data->cpy_map[x][y] == 's')
 		return (ERR_MAP_PATH);
@@ -102,7 +107,7 @@ int	flood_fill(t_sl_data *data, int x, int y)
 		data->num_e--;
 	if ((data->cpy_map[x][y] == 'E' || data->num_e == 0) && data->num_c == 0)
 		return (SUCCESS);
-	data->cpy_map[x][y] = 'V';
+	data->cpy_map[x][y] = 's';
 	if (flood_fill(data, x, y + 1) == SUCCESS)
 		return (SUCCESS);
 	if (flood_fill(data, x, y - 1) == SUCCESS)

@@ -6,13 +6,13 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:56:39 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/09/12 18:07:27 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:25:13 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(char *s, int c)
+char	*gnl_strchr(char *s, int c)
 {
 	int	i;
 
@@ -26,13 +26,13 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *s)
+char	*gnl_strdup(const char *s)
 {
 	int		i;
 	char	*res;
 
 	i = 0;
-	res = malloc(sizeof(char) * ft_strlen(s) + 1);
+	res = malloc(sizeof(char) * gnl_strlen(s) + 1);
 	if (!res)
 		return (NULL);
 	while (s[i] != 0)
@@ -44,7 +44,7 @@ char	*ft_strdup(const char *s)
 	return (res);
 }
 
-size_t	ft_strlen(char const *str)
+size_t	gnl_strlen(char const *str)
 {
 	size_t	i;
 
@@ -54,13 +54,13 @@ size_t	ft_strlen(char const *str)
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*gnl_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
 	size_t	i;
 
 	i = 0;
-	if (start >= ft_strlen(s))
+	if (start >= gnl_strlen(s))
 	{
 		res = malloc(1);
 		if (!res)
@@ -68,8 +68,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		res[0] = '\0';
 		return (res);
 	}
-	else if (len > ft_strlen(&s[start]))
-		len = ft_strlen(&s[start]);
+	else if (len > gnl_strlen(&s[start]))
+		len = gnl_strlen(&s[start]);
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);

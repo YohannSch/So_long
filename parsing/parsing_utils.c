@@ -6,7 +6,7 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 06:40:17 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/04 10:15:10 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:34:33 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	load_map(t_sl_data *data)
 		free(line);
 		line = get_next_line(file_descriptor);
 	}
-	data->map = ft_split(text, '\n');
-	free(text);
 	close(file_descriptor);
-	free(line);
-	return (SUCCESS);
+	data->map = ft_split(text, '\n');
+	if (!data->map)
+		return (free(line),free(text), ERR_FILE);
+	return (free(line), free(text), SUCCESS);
 }
 
 int	check_map_squareness(t_sl_data *data)
@@ -47,19 +47,17 @@ int	check_map_squareness(t_sl_data *data)
 	int	row_length;
 
 	i = 0;
-	if (!data->map || !data->map[0])
-		return (ERR_MAP_RECT);
-	row_length = ft_strlen(data->map[0]);
+	row_length = ft_strlen(data->map[i]);
 	if (row_length > 60)
 		return (ERR_MAP_SIZE);
 	while (data->map[i])
 	{
-		if (ft_strlen(data->map[i]) != row_length)
+		if ((int)ft_strlen(data->map[i]) != row_length)
 			return (ERR_MAP_RECT);
 		i++;
 	}
 	if (i > 32)
-		return(ERR_MAP_SIZE);
+		return (ERR_MAP_SIZE);
 	return (SUCCESS);
 }
 
@@ -101,7 +99,11 @@ int	check_characters(t_sl_data *data)
 			if (data->map[i][j] == 'P')
 				data->num_p++;
 			else if (data->map[i][j] == 'E')
+			{
 				data->num_e++;
+				data->exit_pos[0] = i;
+				data->exit_pos[1] = j;
+			}
 			else if (data->map[i][j] == 'C')
 				data->num_c++;
 			j++;
@@ -116,7 +118,6 @@ int	check_characters(t_sl_data *data)
 int	check_map_walls(t_sl_data *data)
 {
 	int	i;
-	int	j;
 	int	last_row;
 
 	last_row = 0;
