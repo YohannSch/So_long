@@ -6,7 +6,7 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:16:54 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/05 15:34:43 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:42:22 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	parsing(t_sl_data *data)
 		&& ft_isascii(data->map_file[length - 5]) == SUCCESS)
 		return (ERR_FILE);
 	if (load_map(data) != SUCCESS)
-		return (free_tab(data->map), ERR_FILE);
+		return (ERR_FILE);
 	if (check_map_squareness(data) != SUCCESS)
 		return (free_tab(data->map), ERR_MAP_RECT);
 	if (check_map_characters(data) != SUCCESS)

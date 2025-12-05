@@ -6,7 +6,7 @@
 /*   By: yscheupl <yscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:27:44 by yscheupl          #+#    #+#             */
-/*   Updated: 2025/12/05 15:40:06 by yscheupl         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:45:20 by yscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	error_management(int error_code)
 	else if (error_code == ERR_FILE)
 		ft_putendl_fd("Error : The file loader failed", 2);
 	else if (error_code == ERR_MAP_WALLS)
-		ft_putendl_fd("Error : The map walls checker failed", 2);
+		ft_putendl_fd("Error : The map walls test failed", 2);
 	else if (error_code == ERR_MAP_RECT)
-		ft_putendl_fd("Error : The map squareness checker failed", 2);
+		ft_putendl_fd("Error : The map squareness test failed", 2);
 	else if (error_code == ERR_MAP_CHARS)
-		ft_putendl_fd("Error : The map characters checker failed", 2);
+		ft_putendl_fd("Error : The map characters test failed", 2);
 	else if (error_code == ERR_MAP_PATH)
-		ft_putendl_fd("Error : The map path checker failed", 2);
+		ft_putendl_fd("Error : The map path test failed", 2);
 	else if (error_code == ERR_MALLOC)
 		ft_putendl_fd("Error : Memory allocation failed", 2);
 	else if (error_code == ERR_MAP_SIZE)
-		ft_putendl_fd("Error : The map size checker failed", 2);
+		ft_putendl_fd("Error : The map size test failed", 2);
 }
 
 int	main(int argc, char **argv)
